@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+  {{ $style := resources.Get "css/style.css" | fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+  <style>
+    /* accentColor in hugo.toml drives this -- change it there, not here. */
+    :root { --accent: {{ .Site.Params.accentColor }}; }
+  </style>
+</head>
+<body>
+  {{ partial "header.html" . }}
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+  {{ $slug := resources.Get "js/slug.js" | fingerprint }}
+  {{ $lightbox := resources.Get "js/lightbox.js" | fingerprint }}
+  <script defer src="{{ $slug.RelPermalink }}" integrity="{{ $slug.Data.Integrity }}"></script>
+  <script defer src="{{ $lightbox.RelPermalink }}" integrity="{{ $lightbox.Data.Integrity }}"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{{ define "main" }}
+<section class="projects-section">
+  <div class="projects-head">
+    <h2>// Projects</h2>
+    <a href="{{ "projects/" | relURL }}">See all &#10230;</a>
+  </div>
+  <div class="project-cards">
+    {{ range first 8 (where .Site.RegularPages "Section" "projects") }}
+    <a class="project-card" href="{{ .Permalink }}">
+      <span class="project-card-title">
+        <svg class="feather" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <use href="{{ "icons/feather-sprite.svg" | relURL }}#code"></use>
+        </svg>
+        {{ .Title }}
+      </span>
+      <span class="project-tldr">{{ .Params.tldr }}</span>
+    </a>
+    {{ end }}
+  </div>
+</section>
+
+<section class="post-list">
+  <div class="post-list-head">
+    <h2>// Most recent</h2>
+    <a href="{{ "miniposts/" | relURL }}">See all &#10230;</a>
+  </div>
+  {{ range first 1 (where .Site.RegularPages "Section" "posts") }}
+  <article class="post-summary">
+    <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+    <p class="post-date">{{ .Date.Format "Jan 2, 2006" }}</p>
+    <p>{{ .Summary }}</p>
+    <a class="read-more" href="{{ .Permalink }}">Read more &#10230;</a>
+  </article>
+  {{ end }}
+</section>
+{{ end }}

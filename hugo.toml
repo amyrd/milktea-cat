@@ -1,0 +1,77 @@
+baseURL = "https://example.com/"
+locale = "en-us"
+title = "amyr os"
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+[params]
+  author = "amyr dayrit"
+  tagline = "A tagline goes hereee"
+  bioIntro = "cool projects, philosophy, photography, resume"
+  bioBody = "edit me later"
+  bioNote = "to consume is human, to create is divine"
+
+  # The header's "currently recommending" widget. Edit these two lines any time.
+  songTitle = "All I Did Was Dream of You"
+  songArtist = "beabadoobee"
+
+  # Single accent color used for link underlines, icons, and highlights.
+  # Change this one line and the whole site's accent updates.
+  accentColor = "#D7CFAC"
+
+  # Logo shown top-left of the header. Leave commented out to keep the
+  # rabbit emoji. To use your own image: put the file in static/images/
+  # (e.g. static/images/logo.png), then uncomment and point this at it.
+  # No leading slash -- that matters once the site is deployed under a
+  # subfolder like GitHub Pages' /amOs/, so relURL can prefix it correctly.
+  logoImage = "images/logo.png"
+
+# Icon nav row in the header (top of page). "icon" must match an id in
+# static/icons/feather-sprite.svg (e.g. home, info, folder, camera, image).
+# NOTE: urls below deliberately have no leading slash (e.g. "about/" not
+# "/about/") -- with a leading slash, Hugo's relURL treats it as already
+# absolute from the domain root and won't add GitHub Pages' /amOs/ subfolder
+# prefix, which is what caused these links to 404 once deployed.
+[[params.iconNav]]
+  name = "Home"
+  url = ""
+  icon = "home"
+
+[[params.iconNav]]
+  name = "About"
+  url = "about/"
+  icon = "info"
+
+[[params.iconNav]]
+  name = "Projects"
+  url = "projects/"
+  icon = "folder"
+
+[[params.iconNav]]
+  name = "Miniposts"
+  url = "miniposts/"
+  icon = "at-sign"
+
+[[params.iconNav]]
+  name = "Photography"
+  url = "photography/"
+  icon = "camera"
+
+# Text nav list under the bio ("About ❧ Projects ❧ ...")
+[[params.nav]]
+  name = "ab me"
+  url = "about/"
+
+[[params.nav]]
+  name = "cool stuff i made"
+  url = "projects/"
+
+[[params.nav]]
+  name = "some text"
+  url = "miniposts/"
+
+[[params.nav]]
+  name = "some pics"
+  url = "photography/"

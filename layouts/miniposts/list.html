@@ -1,0 +1,20 @@
+{{ define "main" }}
+<section class="miniposts-page">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+
+  {{ range (where .Site.RegularPages "Section" "posts").GroupByDate "January 2006" }}
+  <section class="mini-month">
+    <h2>{{ .Key }}</h2>
+    <ul class="mini-list">
+      {{ range .Pages }}
+      <li class="mini-item">
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+        <time class="mini-date" datetime="{{ .Date.Format "2006-01-02" }}">[{{ .Date.Format "Jan 2" }}]</time>
+      </li>
+      {{ end }}
+    </ul>
+  </section>
+  {{ end }}
+</section>
+{{ end }}

@@ -1,0 +1,56 @@
+<header class="site-header">
+  <div class="header-top">
+    <a class="logo" href="{{ .Site.Home.RelPermalink }}" aria-label="Home">
+      {{ if .Site.Params.logoImage }}
+      <img src="{{ .Site.Params.logoImage | relURL }}" alt="{{ .Site.Params.author }}" class="logo-img">
+      {{ else }}
+      🐇
+      {{ end }}
+    </a>
+
+    <div class="header-widgets">
+      <nav class="icon-nav" aria-label="Main">
+        {{ range .Site.Params.iconNav }}
+        <a href="{{ .url | relURL }}" title="{{ .name }}">
+          <svg class="feather" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <title>{{ .name }}</title>
+            <use href="{{ "icons/feather-sprite.svg" | relURL }}#{{ .icon }}"></use>
+          </svg>
+        </a>
+        {{ end }}
+      </nav>
+
+      <span class="slug" id="slug" aria-live="polite"></span>
+
+      <span class="widget" id="date-widget">
+        <svg class="feather" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <use href="{{ "icons/feather-sprite.svg" | relURL }}#calendar"></use>
+        </svg>
+        {{ now.Format "Jan 2, 2006" }}
+      </span>
+
+      <span class="widget" id="song-widget">
+        <svg class="feather" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <use href="{{ "icons/feather-sprite.svg" | relURL }}#music"></use>
+        </svg>
+        {{ .Site.Params.songTitle }} by {{ .Site.Params.songArtist }}
+      </span>
+    </div>
+  </div>
+
+  {{ if .IsHome }}
+  <div class="intro-row">
+    <div class="intro">
+      <p>{{ .Site.Params.bioIntro | markdownify }}</p>
+      <p>{{ .Site.Params.bioBody }}</p>
+      <p class="note"><em>{{ .Site.Params.bioNote }}</em></p>
+    </div>
+
+    <nav class="info-nav" aria-label="Pages">
+      {{ range .Site.Params.nav }}
+      <span class="info-link"><span class="leaf" aria-hidden="true">&#35;</span> <a href="{{ .url | relURL }}">{{ .name }}</a></span>
+      {{ end }}
+    </nav>
+  </div>
+  {{ end }}
+</header>

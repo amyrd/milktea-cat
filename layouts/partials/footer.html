@@ -1,0 +1,18 @@
+<footer class="site-footer">
+  <hr>
+  <p>&copy; {{ now.Year }} {{ .Site.Params.author }}</p>
+  <nav aria-label="Footer">
+    <a href="{{ "posts/index.xml" | relURL }}" title="RSS">
+      <svg class="feather" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <title>RSS</title>
+        <use href="{{ "icons/feather-sprite.svg" | relURL }}#rss"></use>
+      </svg>
+    </a>
+    <a href="{{ "posts/" | relURL }}" title="Archive">
+      <svg class="feather" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <title>Archive</title>
+        <use href="{{ "icons/feather-sprite.svg" | relURL }}#archive"></use>
+      </svg>
+    </a>
+  </nav>
+</footer>

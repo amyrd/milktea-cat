@@ -1,0 +1,33 @@
+{{ define "main" }}
+<section class="photo-page">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <div class="photo-grid">
+    {{ $page := . }}
+    {{ range .Params.photos }}
+    <figure class="photo-frame">
+      {{ $imgSrc := "" }}
+      {{ if .src }}
+        {{ if strings.HasPrefix .src "http" }}
+          {{ $imgSrc = .src }}
+        {{ else }}
+          {{ with $page.Resources.GetMatch .src }}
+            {{ $imgSrc = .RelPermalink }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ if $imgSrc }}
+      <img src="{{ $imgSrc }}" alt="{{ .caption }}" loading="lazy" class="lightbox-trigger">
+      {{ else }}
+      <div class="photo-placeholder">no image yet</div>
+      {{ end }}
+      {{ if .caption }}<figcaption>{{ .caption }}</figcaption>{{ end }}
+    </figure>
+    {{ end }}
+  </div>
+
+  <div id="lightbox-overlay" class="lightbox-overlay">
+    <img id="lightbox-image" src="" alt="">
+  </div>
+</section>
+{{ end }}

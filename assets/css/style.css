@@ -1,0 +1,322 @@
+/* ===== Fonts =====
+   ET Book is the serif body font (same one Edward Tufte uses in his books).
+   IBM Plex Mono is used for small UI bits: the header widgets and nav labels. */
+@font-face {
+  font-family: "ET Book";
+  src: url("/fonts/et-book/roman/et-book-roman-line-figures.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "ET Book";
+  src: url("/fonts/et-book/italic/et-book-display-italic-old-style-figures.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "ET Book";
+  src: url("/fonts/et-book/bold/et-book-bold-line-figures.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/ibm-plex-mono/IBMPlexMono-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* ===== Design tokens =====
+   Change --accent below to re-theme the whole site's highlight color. */
+:root {
+  --accent: #2c2c2a ;
+  --accent-soft: rgba(201, 138, 44, 0.12);
+
+  --color-bg: #fffff2;
+  --color-text: #231b1b;
+  --color-text-secondary: #666;
+  --color-text-muted: #888;
+  --color-border: #000000;
+
+  --font-serif: "ET Book", Palatino, "Palatino Linotype", Georgia, serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  --content-max-width: 760px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  font-size: 19px;
+  line-height: 1.6;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md) 4rem;
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: 2px solid var(--accent);
+}
+a:hover { color: var(--accent); }
+
+h1, h2, h3 { font-weight: normal; line-height: 1.25; margin-top: .5rem;}
+h2 { letter-spacing: 0.02em; margin-top: 1.5rem; }
+
+hr {
+  border: none;
+  border-top: 1px dashed var(--color-border);
+  margin: var(--spacing-lg) 0;
+}
+
+/* ----- Header ----- */
+.site-header .header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-lg);
+}
+
+.logo {
+  font-size: 3rem;
+  border-bottom: none;
+  text-decoration: none;
+  line-height: 1;
+  display: inline-block;
+}
+.logo-img {
+  display: block;
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+}
+
+/* Right-hand column: icon row on top, then slug/date/song each on their own
+   line, right-aligned -- matches the original site's vertical widget stack. */
+.header-widgets {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs, 0.85rem);
+  color: var(--color-text-secondary);
+}
+
+.icon-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+.icon-nav a { border-bottom: none; color: var(--color-text); }
+.icon-nav a:hover { color: var(--accent); }
+.icon-nav .feather { display: block; }
+
+.header-widgets .slug {
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.header-widgets .widget {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+.header-widgets .widget .feather { color: var(--accent); }
+
+/* Bio on the left, page nav as a vertical list on the right -- like the
+   reference site's sidebar layout. Stacks on narrow screens. */
+.intro-row {
+  display: flex;
+  gap: var(--spacing-xl);
+  align-items: flex-start;
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-md) 0;
+}
+
+.intro { flex: 1; min-width: 0; }
+.intro p { margin: 0.6rem 0; }
+.intro .note { color: var(--color-text-secondary); }
+
+.info-nav {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  text-align: left;
+}
+.info-nav .leaf { color: var(--accent); }
+
+@media (max-width: 640px) {
+  .intro-row { flex-direction: column; }
+  .info-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+
+/* ----- Projects ----- */
+.projects-section .projects-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.projects-section .projects-head h2,
+.post-list-head h2 {
+  margin-top: 0;
+}
+.post-list { margin-top: 1rem; }
+/* Horizontal-scrolling row of cards, snapping one into place at a time. */
+.project-cards {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xs);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--spacing-sm);
+  -webkit-overflow-scrolling: touch;
+}
+.project-card {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: var(--spacing-md);
+  display: block;
+}
+.project-card:hover { border-color: var(--accent); color: var(--color-text); }
+.project-card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-weight: bold;
+}
+.project-tldr {
+  display: block;
+  margin-top: var(--spacing-xs);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+/* ----- Miniposts (monthly archive) ----- */
+.mini-month h2 {
+  font-size: 1rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-lg);
+}
+.mini-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mini-item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+.mini-item a { border-bottom: none; }
+.mini-date {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* ----- Post list ----- */
+.post-list-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.post-list-head + .post-summary { padding-top: var(--spacing-xs); }
+.post-summary {
+  border-bottom: 1px dashed var(--color-border);
+  padding: var(--spacing-lg) 0;
+}
+.post-summary h3 { margin-bottom: var(--spacing-xs); }
+.post-summary h3 a { border-bottom: none; }
+.post-date {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  margin: 0 0 var(--spacing-sm);
+}
+.read-more { font-size: 0.9rem; }
+
+.post-single h1 { margin-bottom: var(--spacing-xs); }
+.post-content { margin-top: var(--spacing-lg); }
+.post-content p { margin: var(--spacing-md) 0; }
+
+/* ----- Photography ----- */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+.photo-frame { margin: 0; }
+.photo-frame img { width: 100%; display: block; border-radius: 4px; cursor: zoom-in; }
+.photo-placeholder {
+  aspect-ratio: 4 / 3;
+  border: 1px dashed var(--color-border);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.photo-frame figcaption {
+  margin-top: var(--spacing-xs);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  z-index: 1000;
+  cursor: zoom-out;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-overlay img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+}
+
+/* ----- Footer ----- */
+.site-footer {
+  margin-top: 3rem;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+.site-footer nav { display: flex; justify-content: center; gap: var(--spacing-md); margin-top: var(--spacing-sm); }
+.site-footer nav a { border-bottom: none; color: var(--color-text-muted); }
+.site-footer nav a:hover { color: var(--accent); }

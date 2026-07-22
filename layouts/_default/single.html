@@ -1,0 +1,10 @@
+{{ define "main" }}
+<article class="post-single">
+  <h1>{{ .Title }}</h1>
+  <p class="post-date">{{ .Date.Format "Jan 2, 2006" }}</p>
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+  <p><a href="{{ .Site.Home.RelPermalink }}">&#10229; Back home</a></p>
+</article>
+{{ end }}
