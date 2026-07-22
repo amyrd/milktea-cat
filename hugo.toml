@@ -65,7 +65,7 @@ title = "amyr os"
   url = "about/"
 
 [[params.nav]]
-  name = "cool stuff i made"
+  name = "cool stuff i made, links to project files soon"
   url = "projects/"
 
 [[params.nav]]
