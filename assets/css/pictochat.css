@@ -1,0 +1,212 @@
+/* Styles for the PictoChat project page only (loaded by layouts/projects/pictochat.html).
+
+   The app is a "stage" 256 x 384 stage-pixels big (two stacked 256 x 192 DS screens).
+   Everything on it is sized with calc(var(--s) * N px), where --s is the scale the
+   script picks to fit the page. Change --s and the whole stage grows or shrinks.
+
+   Classes starting "ds-" are the DS look (sprites, text, buttons laid over sprites).
+   Classes starting "pc-" are ordinary page bits around it. The sprites and the "nds"
+   font are not mine; see static/pictochat/CREDITS.md. */
+
+@font-face {
+  font-family: "nds";
+  src: url("/pictochat/nds.ttf");
+  font-display: block; /* better a moment of nothing than a flash of the wrong font */
+}
+
+.pc-app { margin: var(--spacing-lg) 0; }
+
+.pc-loading { text-align: center; color: var(--color-text-secondary); }
+.pc-error { color: #a40000; font-weight: bold; }
+
+/* Text for screen readers only (visually hidden, but still announced). */
+.pc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* -- The stage -------------------------------------------------------------- */
+
+.ds-stage {
+  --s: 2;
+  --tint: #289acb; /* the player's color; the screens set it */
+  position: relative;
+  box-sizing: content-box;
+  width: calc(var(--s) * 256px);
+  height: calc(var(--s) * 384px);
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate; /* keeps the multiply blending inside the stage */
+  background: #fff;
+  border: 1px solid #000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Pictures scale up with hard pixel edges, like the original. */
+.ds-sprite {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+}
+.ds-sprite.is-flipped { transform: scaleY(-1); }
+.ds-no-pointer { pointer-events: none; }
+.ds-multiply { mix-blend-mode: multiply; }
+
+/* Text in the DS pixel font. 10px is the size it was drawn at. */
+.ds-text {
+  position: absolute;
+  font: calc(var(--s) * 10px) / calc(var(--s) * 12px) nds;
+  white-space: pre;
+  pointer-events: none;
+  -webkit-font-smoothing: none;
+}
+.ds-text.ds-wrap { white-space: normal; overflow-wrap: anywhere; }
+
+/* -- Invisible buttons laid over parts of a sprite ---------------------------- */
+
+.ds-hit {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ds-hit[hidden] { display: none; }
+/* A pressed or selected control is shown by tinting it with the player's color. */
+.ds-hit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--tint);
+  opacity: 0;
+  pointer-events: none;
+}
+.ds-hit:active::after,
+.ds-hit.is-down::after,
+.ds-hit.is-on::after { opacity: 0.4; }
+.ds-hit:focus-visible {
+  outline: 3px solid #0b3fb0;
+  outline-offset: -1px;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+
+/* Keys can be dragged, so a finger on one must not scroll the page. */
+.ds-key { touch-action: none; }
+
+/* A character picked up off the keyboard, following the pointer. */
+.ds-dragging { z-index: 5; }
+
+/* Keyboard pictures shown over the base keyboard. They must not block clicks. */
+.ds-overlay { pointer-events: none; }
+.ds-overlay[hidden] { display: none; }
+
+/* -- Form controls on the intro screen ------------------------------------------ */
+
+.ds-input {
+  position: absolute;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: calc(var(--s) * 1px) solid #000;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
+  font: calc(var(--s) * 10px) nds;
+  text-align: center;
+  user-select: text;
+  -webkit-user-select: text;
+}
+.ds-input:focus-visible { outline: 3px solid #0b3fb0; outline-offset: 1px; }
+
+.ds-swatch { position: absolute; display: block; cursor: pointer; }
+/* The real radio button covers the square and is invisible, so it keeps working
+   with the keyboard; the colored square is what you see. */
+.ds-swatch input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.ds-chip {
+  position: absolute;
+  inset: 0;
+  border: calc(var(--s) * 1px) solid #000;
+}
+.ds-swatch input:checked + .ds-chip {
+  box-shadow: 0 0 0 calc(var(--s) * 1px) #fff, 0 0 0 calc(var(--s) * 2px) #000;
+}
+.ds-swatch input:focus-visible + .ds-chip { outline: 3px solid #0b3fb0; outline-offset: calc(var(--s) * 3px); }
+
+/* -- Room list ----------------------------------------------------------------- */
+
+.ds-list { position: absolute; overflow: hidden; }
+.ds-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--s) * 160px);
+  transition: transform 0.25s steps(8);
+}
+
+/* -- Message boxes and the chat -------------------------------------------------- */
+
+.ds-box { position: relative; flex: none; overflow: hidden; }
+.ds-box > * { pointer-events: none; }
+.ds-strokes { position: absolute; }
+.ds-rows { position: absolute; inset: 0; }
+
+/* The box you write in sits at a fixed spot on the bottom screen, and you can draw on it. */
+.ds-compose { position: absolute; }
+.ds-compose > .ds-strokes {
+  pointer-events: auto;
+  cursor: crosshair;
+  touch-action: none; /* drawing with a finger must not scroll the page */
+}
+
+/* The chat: scrolls with the wheel, a finger or the arrow buttons, but shows no scrollbar. */
+.ds-feed {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--s) * 2px);
+  padding-bottom: calc(var(--s) * 2px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.ds-feed::-webkit-scrollbar { display: none; }
+/* Pushes a short chat down to the bottom, without cutting off a long one. */
+.ds-feed > :first-child { margin-top: auto; }
+
+/* -- Page content under the stage ---------------------------------------------------- */
+
+.pc-controls { max-width: 36rem; margin: var(--spacing-sm) auto 0; text-align: center; }
+.pc-aside { max-width: 36rem; margin: var(--spacing-md) auto 0; }
+.pc-hint { margin: var(--spacing-sm) 0; font-size: 0.9rem; color: var(--color-text-secondary); }
+.pc-controls button,
+.pc-aside button {
+  font: inherit;
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.1rem 0.6rem;
+  cursor: pointer;
+}
+.pc-controls button:focus-visible,
+.pc-aside button:focus-visible { outline: 3px solid #0b3fb0; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-track { transition: none; }
+}

@@ -10,6 +10,8 @@
     /* accentColor in hugo.toml drives this -- change it there, not here. */
     :root { --accent: {{ .Site.Params.accentColor }}; }
   </style>
+  {{/* Pages can add their own extra <link>/<script> tags here (see layouts/projects/pictochat.html). */}}
+  {{ block "head" . }}{{ end }}
 </head>
 <body>
   {{ partial "header.html" . }}

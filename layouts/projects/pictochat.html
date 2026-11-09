@@ -1,0 +1,31 @@
+{{/*
+  Page layout for the PictoChat project (content/projects/pictochat.md picks it
+  with `layout = "pictochat"`). It's the normal project page, plus a spot for
+  the app to load into.
+*/}}
+
+{{ define "head" }}
+  {{ $css := resources.Get "css/pictochat.css" | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+  {{/* js.Build bundles main.js and every file it imports into one script. */}}
+  {{ $js := resources.Get "js/pictochat/main.js" | js.Build (dict "minify" hugo.IsProduction) | fingerprint }}
+  <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+{{ end }}
+
+{{ define "main" }}
+<article class="post-single">
+  <h1>{{ .Title }}</h1>
+  <p class="post-date">{{ .Date.Format "Jan 2, 2006" }}</p>
+
+  {{/* main.js fills this in. */}}
+  <section id="pictochat" class="pc-app" aria-label="PictoChat">
+    <noscript><p>PictoChat needs JavaScript to run.</p></noscript>
+  </section>
+
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+  <p><a href="{{ .Site.Home.RelPermalink }}">&#10229; Back home</a></p>
+</article>
+{{ end }}
