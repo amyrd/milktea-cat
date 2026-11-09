@@ -19,7 +19,7 @@
   <p class="post-date">{{ .Date.Format "Jan 2, 2006" }}</p>
 
   {{/* main.js fills this in. */}}
-  <section id="pictochat" class="pc-app" aria-label="PictoChat">
+  <section id="pictochat" class="pc-app" aria-label="PictoChat" data-relay="{{ .Site.Params.pictochatRelay | default "" }}">
     <noscript><p>PictoChat needs JavaScript to run.</p></noscript>
   </section>
 

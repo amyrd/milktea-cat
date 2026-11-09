@@ -59,6 +59,12 @@ export class Session {
 
     transport.onEvent((raw) => this._handleEvent(parseEvent(raw)));
 
+    // Each time the link comes up (the first time, or again after a drop) say who we
+    // are and ask who else is around: we may have missed things while disconnected.
+    transport.onConnect(() => {
+      if (this.me) this._announce({ askForOthers: true });
+    });
+
     // Tell everyone we're gone when the tab closes or navigates away...
     window.addEventListener("pagehide", () => {
       if (this.me) this._transport.send(byeEvent(this.me.id));
@@ -101,10 +107,11 @@ export class Session {
 
   /**
    * Post a message to the room we're in. Returns false (and sends nothing) if
-   * we aren't in a room or the message is empty or over the size limits.
+   * we aren't in a room, can't reach the chat server, or the message is empty or
+   * over the size limits.
    */
   sendMessage({ text, strokes, pieces = [] }) {
-    if (!this.me || this.me.roomId === null) return false;
+    if (!this.me || this.me.roomId === null || !this._transport.isConnected()) return false;
 
     const { roomId, name, colorId, id: from } = this.me;
     const draft = messageEvent(roomId, { id: newId(), from, name, colorId, text, strokes, pieces });

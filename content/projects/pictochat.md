@@ -16,6 +16,6 @@ A browser version of my terminal PictoChat (a separate project from the Go [Pict
 - Players are tracked with "presence" events, so room head counts and join/leave bars update live.
 - The picture of the keyboard has a real, invisible button laid over every key, and the text box and controls are real form elements, so it also works with a keyboard and a screen reader.
 
-**Trying it with two people:** this site is static, so there's no server to connect different visitors. Chat is shared between tabs of the same browser. Open this page in a second tab, join the same room, and you can talk to yourself. The network code lives in one small file (`transport.js`), so connecting real visitors later means swapping that file for one that uses a WebSocket.
+**Trying it with two people:** the site itself is static, so chat goes through a small relay server (`relay/server.js`) that passes each visitor's messages on to the others. It stores nothing. The status line under the screen tells you whether you're connected. If the relay is switched off, chat still works between tabs of the same browser, so you can open this page in a second tab, join the same room, and talk to yourself.
 
 **Credits:** the screen and button pictures and the pixel font and sound effects come from [PictoChat Online](https://github.com/ayunami2000/ayunpictojava) by ayunami2000 (the font is © caveras 2016). The code on this page is my own. PictoChat is a Nintendo trademark, and this page isn't affiliated with or endorsed by Nintendo.

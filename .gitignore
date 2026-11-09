@@ -4,3 +4,4 @@ resources/_gen/
 .DS_Store
 .claude
 GETTING-STARTED.md
+relay/node_modules/

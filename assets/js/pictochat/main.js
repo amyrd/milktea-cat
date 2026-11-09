@@ -36,6 +36,19 @@ import { Session } from "./session.js";
 import { generateRoomCode, normalizeRoomCode } from "./state.js";
 import { createTransport } from "./transport.js";
 
+/** One line under the stage saying whether chat is reaching other people. */
+function createStatusLine(transport) {
+  const words = {
+    local: "Chat works between tabs of this browser.",
+    connecting: "Connecting to the chat server...",
+    online: "Connected: you can chat with other visitors.",
+    offline: "Can't reach the chat server, so messages can't be sent. Trying again...",
+  };
+  const line = h("p", { className: "pc-status", role: "status" });
+  transport.onStatus((status) => (line.textContent = words[status]));
+  return line;
+}
+
 /** The "Sound: on / off" button under the stage. The choice is remembered. */
 function createSoundSwitch() {
   const button = h("button", {
@@ -62,9 +75,12 @@ async function start(root) {
 
   loadSounds(); // not awaited: the page doesn't wait for sound, and works fine without it
 
-  const session = new Session(createTransport());
+  // The relay's address comes from hugo.toml (see layouts/projects/pictochat.html).
+  // With none, chat only works between tabs of this browser.
+  const transport = createTransport({ relayUrl: root.dataset.relay ?? "" });
+  const session = new Session(transport);
   const stage = createStage(root);
-  stage.controls.append(createSoundSwitch());
+  stage.controls.append(createStatusLine(transport), createSoundSwitch());
   let current = null;
 
   /**

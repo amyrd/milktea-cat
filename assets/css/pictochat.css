@@ -192,6 +192,7 @@
 /* -- Page content under the stage ---------------------------------------------------- */
 
 .pc-controls { max-width: 36rem; margin: var(--spacing-sm) auto 0; text-align: center; }
+.pc-status { margin: 0 0 var(--spacing-sm); font-size: 0.9rem; color: var(--color-text-secondary); }
 .pc-aside { max-width: 36rem; margin: var(--spacing-md) auto 0; }
 .pc-hint { margin: var(--spacing-sm) 0; font-size: 0.9rem; color: var(--color-text-secondary); }
 .pc-controls button,

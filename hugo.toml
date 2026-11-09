@@ -28,6 +28,13 @@ title = "amyr os"
   # subfolder like GitHub Pages' /amOs/, so relURL can prefix it correctly.
   logoImage = "images/logo.png"
 
+  # The PictoChat page (/projects/pictochat/) lets visitors chat with each other
+  # through a small relay server you run yourself (see relay/README.md). Put its
+  # address here once it's running, e.g. "wss://chat.milktea.cat" (it must start
+  # with wss:// because this site is served over https).
+  # Leave it empty and chat only works between tabs of the same browser.
+  pictochatRelay = ""
+
 # Icon nav row in the header (top of page). "icon" must match an id in
 # static/icons/feather-sprite.svg (e.g. home, info, folder, camera, image).
 # NOTE: urls below deliberately have no leading slash (e.g. "about/" not
